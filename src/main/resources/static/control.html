@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>控制中心</title>
+</head>
+
+<style>
+    .subtitle_button{
+        cursor: pointer;
+        font-size: 25px;
+        border-radius: 5px;
+    }
+    .mar_t20{
+        margin-top: 20px;
+    }
+    .mar_t5{
+        margin-top: 5px;
+    }
+</style>
+<body>
+
+
+
+    <div>
+        <button class="subtitle_button" id="subtitle_start_btn">字幕放送</button>
+    </div>
+
+    <div class="mar_t20">
+        <button class="subtitle_button" id="subtitle_reset_btn">字幕重置</button>
+    </div>
+
+    <hr/>
+
+    <div class="mar_t20">
+        自定义消息内容:
+        <br />
+        <textarea id="message" cols="100" rows="9">
+
+        </textarea>
+        <br />
+        <button class="subtitle_button" id="subtitle_custom_message_btn">发送</button>
+    </div>
+
+    <hr/>
+
+    <div class="mar_t20">
+        字幕字体大小<br/>
+        <input type="text" id="fontSize"/>
+        <br/>
+        <button class="subtitle_button mar_t5" id="subtitle_resize_btn">修改</button>
+    </div>
+
+
+<script src="./js/jquery-2.1.4.min.js"></script>
+
+<script>
+
+    $(function () {
+
+        var instruct_message = {};
+
+        $("#subtitle_start_btn").click(function () {
+            instruct_message = {};
+            instruct_message.order = "start";
+            send_to_server ("/subtitle/manager", JSON.stringify(instruct_message));
+        });
+
+        $("#subtitle_reset_btn").click(function () {
+            instruct_message = {};
+            instruct_message.order = "reset";
+            send_to_server ("/subtitle/manager", JSON.stringify(instruct_message));
+        });
+
+        $("#subtitle_custom_message_btn").click(function () {
+            instruct_message = {};
+            var message = $("#message").value();
+            instruct_message.order = "customMessage";
+            instruct_message.message = message;
+
+        });
+
+        $("#subtitle_resize_btn").click(function () {
+            instruct_message = {};
+            var fontSize = $("#fontSize").value();
+            instruct_message.order = "resizeFontSize";
+            instruct_message.fontSize = fontSize ;
+        });
+
+    });
+
+
+    function send_to_server(url, data) {
+        var server_location = window.location.origin;
+        $.ajax({
+            url: server_location + url,
+            contentType: "application/json",
+            data: data,
+            method: "post",
+            success: function () {
+                console.log("subtitle start msg sned sucessly")
+            }
+        })
+    }
+
+
+</script>
+
+</body>
+</html>

@@ -5,7 +5,8 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class MessageDetail {
-    private int screenId;
-    private List<Character> characterList;
+public class Sentence {
+    private long o;
+    private long d;
+    private List<Character> ws;
 }

@@ -1,5 +1,6 @@
 package springboot.study.springbootstudysocket.biz.impl;
 
+import org.springframework.stereotype.Service;
 import springboot.study.springbootstudysocket.biz.MessageService;
 
 import javax.websocket.RemoteEndpoint;
@@ -7,6 +8,8 @@ import javax.websocket.Session;
 import java.io.IOException;
 import java.util.Map;
 
+
+@Service
 public class MessageServiceImpl implements MessageService{
 
     @Override
