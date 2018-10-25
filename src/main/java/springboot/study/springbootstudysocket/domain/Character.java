@@ -7,4 +7,5 @@ public class Character {
     private long o;
     private long d;
     private String w;
+
 }
