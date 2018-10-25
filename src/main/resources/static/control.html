@@ -74,17 +74,18 @@
 
         $("#subtitle_custom_message_btn").click(function () {
             instruct_message = {};
-            var message = $("#message").value();
+            var message = $("#message").val();
             instruct_message.order = "customMessage";
             instruct_message.message = message;
-
+            send_to_server ("/subtitle/manager", JSON.stringify(instruct_message));
         });
 
         $("#subtitle_resize_btn").click(function () {
             instruct_message = {};
-            var fontSize = $("#fontSize").value();
+            var fontSize = $("#fontSize").val();
             instruct_message.order = "resizeFontSize";
             instruct_message.fontSize = fontSize ;
+            send_to_server ("/subtitle/manager", JSON.stringify(instruct_message));
         });
 
     });
