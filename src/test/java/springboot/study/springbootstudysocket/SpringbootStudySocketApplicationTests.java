@@ -2,26 +2,17 @@ package springboot.study.springbootstudysocket;
 
 import com.alibaba.fastjson.JSON;
 import com.sun.deploy.util.ArrayUtil;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StringUtils;
 import springboot.study.springbootstudysocket.domain.Character;
 import springboot.study.springbootstudysocket.domain.Message;
 import springboot.study.springbootstudysocket.domain.MessageDetail;
 import springboot.study.springbootstudysocket.domain.Sentence;
-import sun.java2d.pipe.SpanIterator;
-import sun.reflect.generics.tree.ArrayTypeSignature;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static org.springframework.test.context.transaction.TestTransaction.start;
 
 public class SpringbootStudySocketApplicationTests {
 
@@ -346,6 +337,8 @@ public class SpringbootStudySocketApplicationTests {
 			sentenceList.add(sentence);
 		}
 		System.out.println(JSON.toJSONString(sentenceList));
+
+
 
 	}
 
