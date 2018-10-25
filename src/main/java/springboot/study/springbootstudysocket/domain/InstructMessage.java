@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class InstructMessage {
-    private String order;
+    private String order;// setFontSize,
     private String message;
     private int fontSize;
 }
