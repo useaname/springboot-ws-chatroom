@@ -8,6 +8,7 @@ import springboot.study.springbootstudysocket.domain.Character;
 import springboot.study.springbootstudysocket.domain.Message;
 import springboot.study.springbootstudysocket.domain.MessageDetail;
 import springboot.study.springbootstudysocket.domain.Sentence;
+import springboot.study.springbootstudysocket.util.KrcText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -288,14 +289,18 @@ public class SpringbootStudySocketApplicationTests {
 
 	@Test
 	public void test8() throws Exception{
+
+		String filenm = "D:\\test\\springboot-ws-chatroom\\will_better.krc";//krc文件的全路径加文件名
+		String krcText = new KrcText().getKrcText(filenm);
+
 		String patternStr = "\\[\\d*,\\d*\\]";
 		Pattern compile = Pattern.compile(patternStr);
-		Matcher matcher = compile.matcher(strinClass);
+		Matcher matcher = compile.matcher(krcText);
 		if (!matcher.find()) {
 			return;
 		}
 
-		String myStr = strinClass.substring(matcher.start());
+		String myStr = krcText.substring(matcher.start());
 
 		String[] lineArr = myStr.split("\n") ;
 		List<Sentence> sentenceList = new ArrayList<>(lineArr.length);
@@ -310,7 +315,13 @@ public class SpringbootStudySocketApplicationTests {
 				return;
 			}
 			String[] sentenceTimeArr = curLineStr.substring(1, curLineMatcher.end() - 1).split(",");
-			sentence.setO(Long.valueOf(sentenceTimeArr[0]));
+
+
+			long fixOffset = Long.valueOf(sentenceTimeArr[0]).longValue() - 27555;
+			if (fixOffset < 0) {
+				continue;
+			}
+			sentence.setO(Long.valueOf(sentenceTimeArr[0]).longValue() - 27555);
 			sentence.setD(Long.valueOf(sentenceTimeArr[1]));
 
 			String allCharacterStr = curLineStr.substring(curLineMatcher.end());
@@ -320,7 +331,7 @@ public class SpringbootStudySocketApplicationTests {
 
 			for (int j = 0; j < allCharacterArr.length; j++) {
 				String characterStr = allCharacterArr[j];
-				if (StringUtils.isEmpty(characterStr)) {
+				if (StringUtils.isEmpty(characterStr) || "\r".equals(characterStr)) {
 					continue;
 				}
 				Character character = new Character();
