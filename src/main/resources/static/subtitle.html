@@ -73,7 +73,8 @@ var lines = [{"d":2511,"o":0,"ws":[{"d":127,"o":0,"w":"轻"},{"d":175,"o":127,"w
 
 	var screenId;
 	var screenCount;
-	var fontSize = '200px';
+	var fontSize = '600px';
+	var prefix = '';
 	 if (window.location.search.split('?')[1]) {
 	 	var search = window.location.search.split('?')[1].split('&');
 
@@ -87,6 +88,12 @@ var lines = [{"d":2511,"o":0,"ws":[{"d":127,"o":0,"w":"轻"},{"d":175,"o":127,"w
 	 			screenCount = parseInt(search[i].split('=')[1]);
 				$("#screen_count").text("共" + screenCount + "台计算机");
 	 		}
+	 		if ("fontSize" === key) {
+	 		    fontSize = parseInt(search[i].split('=')[1]);
+			}
+			if ("prefix" === key) {
+	 		    prefix = search[i].split('=')[1];
+			}
 	 	}
 	 }
 
@@ -171,15 +178,14 @@ var _processK = function() {
 
 	var server_location = window.location.origin;
  	var web_socket_server_location = server_location.replace("https:", "ws:").replace("http:", "ws:");
-
- 	var ws = new WebSocket(web_socket_server_location + "/chat-room/" + screenId);// 与服务器建立长连接
+ 	var ws = new WebSocket(web_socket_server_location + "/chat-room/" + screenId + prefix);// 与服务器建立长连接
 
 	ws.onopen = function(evt) {
 		console.log('Connection open ...');
 		ws.send('Hello WebSockets!');
 	}
 
-	var customText = document.getElementById('custom-text');
+	var customText = document.getElementById('text');
 	ws.onmessage = function(evt) {
 		console.log('Received Message: ' + evt.data)
 		// ws.close();
@@ -195,23 +201,27 @@ var _processK = function() {
 			//启动处理
 			_processK();
 
-            $('#custom-text').css('display', 'none');
+//            $('#custom-text').css('display', 'none');
             $('#text').css('display', '-webkit-inline-box');
 			$("#screen_mark").hide();
+            $("#screen_count").hide();
 		} else if ("reset" === data.order) {
 			window.location.reload();
 		} else if ("customMessage" === data.order) {
 		    var msg = data.message;
             customText.innerHTML = '<p>' + msg + '</p>';
 		    $('p').css('font-size', fontSize);
-		    $('#custom-text').css('display', 'block');
-		    $('#text').css('display', 'none');
+		    $('#text').css('display', 'block');
+		    // $('#text').css('display', 'none');
+            var leftOffset = document.body.offsetWidth * screenId;
+            $('body').css('position', 'absolute').css('left', -leftOffset);
+            $('body').css('width', screenCount * 100 + '%')
+            $("#screen_mark").hide();
+            $("#screen_count").hide();
 		} else if ("resizeFontSize" === data.order) {
 		    // 设置字体大小
 			fontSize = data.fontSize;
-
 		}
-
 	}
 
 	ws.onclose = function(evt) {

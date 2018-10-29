@@ -43,7 +43,11 @@ public class ChatRoomServerEndPoint {
 
     @OnOpen
     public void openSession(@PathParam("screenId")String screenId, Session session) {
+//        if (livingSession.containsKey(screenId)){
+//            return;
+//        }
         livingSession.put(screenId, session);
+        System.out.println("connect screen ID = " + screenId);
 //        messageService.sendTextToAll(livingSession, "欢迎用户[" + username + "] 来到聊天室");
     }
 
@@ -55,6 +59,7 @@ public class ChatRoomServerEndPoint {
     @OnClose
     public void  onClose(@PathParam("username")String username, Session session) {
         livingSession.remove(session.getId());
+        System.out.println("close Id = " + session.getId());
 //        messageService.sendTextToAll(livingSession, "用户[" + username + "] 离开聊天室");
     }
 

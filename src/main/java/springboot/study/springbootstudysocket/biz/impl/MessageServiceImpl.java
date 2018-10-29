@@ -17,6 +17,9 @@ public class MessageServiceImpl implements MessageService{
         livingSession.forEach(((username, session) -> {
             sendText(session, message);
         }));
+//        if (message != null && message.contains("reset")) {
+//            livingSession.clear();
+//        }
     }
 
     public void sendText(Session session, String message) {
